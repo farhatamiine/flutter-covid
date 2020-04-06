@@ -27,7 +27,8 @@ class MyApp extends StatelessWidget {
           actions: <Widget>[
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Icon(FontAwesomeIcons.sync),
+              child: IconButton(icon: Icon(FontAwesomeIcons.sync),
+                onPressed: () => getAllInfo(),),
             )
           ],
         ),
@@ -80,8 +81,7 @@ class MyApp extends StatelessWidget {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => DetailPage(covid: data)));
         },
-        trailing:
-            Icon(Icons.keyboard_arrow_right, color: Colors.white, size: 30.0),
+    trailing: Icon(Icons.keyboard_arrow_right, color: Colors.white, size: 30.0),
         leading: ConstrainedBox(
           constraints: BoxConstraints(
             minWidth: 44,

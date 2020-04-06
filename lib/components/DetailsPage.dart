@@ -1,7 +1,10 @@
+import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:covid_morocco/models/Covid.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import 'SimpleBarChart.dart';
 
 class DetailPage extends StatelessWidget {
   DetailPage({this.covid});
@@ -10,6 +13,31 @@ class DetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var data = [
+      ClicksPerYear('Cases', covid.todayCases, Colors.deepOrange),
+      ClicksPerYear('Death', covid.todayDeaths, Colors.red),
+      ClicksPerYear('Recovred', covid.recovered, Colors.green),
+    ];
+    var series = [
+      charts.Series(
+        domainFn: (ClicksPerYear clickData, _) => clickData.year,
+        measureFn: (ClicksPerYear clickData, _) => clickData.clicks,
+        colorFn: (ClicksPerYear clickData, _) => clickData.color,
+        id: 'Clicks',
+        data: data,
+      ),
+    ];
+    var chart = charts.BarChart(
+      series,
+      animate: true,
+    );
+    var chartWidget = Padding(
+      padding: EdgeInsets.all(20.0),
+      child: SizedBox(
+        height: 250.0,
+        child: chart,
+      ),
+    );
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
@@ -128,11 +156,18 @@ class DetailPage extends StatelessWidget {
                         ),
                       ],
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
           ),
+          SizedBox(
+            height: 15.0,
+          ),
+          Text("Graph", style: TextStyle(color: Colors.black54,
+              fontWeight: FontWeight.bold,
+              fontSize: 25)),
+          chartWidget
         ],
       ),
     );
